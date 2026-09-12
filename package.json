@@ -1,29 +1,43 @@
 {
   "name": "job-application-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "A RESTful API for managing job applications throughout the hiring process.",
+  "main": "dist/server.js",
+ "scripts": {
+  "dev": "tsx watch src/server.ts",
+  "build": "tsc",
+  "start": "node dist/server.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faanid/job-application-api.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "nodejs",
+    "express",
+    "typescript",
+    "mongodb",
+    "mongoose",
+    "rest-api"
+  ],
+  "author": "Fateme Kharazmi",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/faanid/job-application-api/issues"
   },
   "homepage": "https://github.com/faanid/job-application-api#readme",
+  "type": "commonjs",
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "mongoose": "^9.10.0"
+    "mongoose": "^9.10.0",
+    "nodemon": "^3.1.14"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.2",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
   }
 }
