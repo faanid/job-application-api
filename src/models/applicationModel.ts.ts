@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 type ApplicationStatus =
   | "applied"
   | "resume_received"
@@ -39,3 +41,65 @@ interface Application {
   appliedAt: Date;
   notes?: string;
 }
+
+const applicationSchema = new mongoose.Schema<Application>({
+  company: {
+    type: String,
+  },
+
+  position: {
+    type: String,
+    required: true,
+  },
+
+  location: {
+    type: String,
+    required: true,
+  },
+
+  status: {
+    type: String,
+    enum: [
+      "applied",
+      "resume_received",
+      "resume_viewed",
+      "accepted",
+      "rejected",
+    ],
+    default: "applied",
+  },
+
+  jobType: {
+    type: String,
+    enum: ["full-time", "part-time", "internship", "contract"],
+  },
+
+  workMode: {
+    type: String,
+    enum: ["remote", "on-site", "hybrid"],
+  },
+
+  minSalary: {
+    type: Number,
+  },
+
+  maxSalary: {
+    type: Number,
+  },
+
+  appliedAt: {
+    type: Date,
+    default: Date.now,
+  },
+
+  notes: {
+    type: String,
+  },
+});
+
+const Application = mongoose.model<Application>(
+  "Application",
+  applicationSchema
+);
+
+export default Application;
