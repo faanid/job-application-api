@@ -14,8 +14,8 @@ const startServer = async (): Promise<Server> => {
     console.log(`API server listening on port ${env.PORT} in ${env.NODE_ENV} mode.`);
   });
 
-  const shutdown = (signal: NodeJS.Signals): void => {
-    console.log(`${signal} received. Shutting down gracefully.`);
+  const shutdown = (): void => {
+    console.log("Shutdown signal received. Closing the HTTP server.");
 
     server.close(() => {
       void mongoose.connection.close().finally(() => process.exit(0));
