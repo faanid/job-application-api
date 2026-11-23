@@ -1,12 +1,34 @@
+import "dotenv/config";
+import type { Server } from "node:http";
+import mongoose from "mongoose";
 import app from "./app";
-import dotenv from "dotenv";
+import { loadEnvironment } from "./config/env";
 import connectDB from "./utils/db";
 
-dotenv.config();
-connectDB();
+const startServer = async (): Promise<Server> => {
+  const env = loadEnvironment();
 
-const port = 3000;
+  await connectDB(env.MONGO_URI);
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  const server = app.listen(env.PORT, () => {
+    console.log(`API server listening on port ${env.PORT} in ${env.NODE_ENV} mode.`);
+  });
+
+  const shutdown = (signal: NodeJS.Signals): void => {
+    console.log(`${signal} received. Shutting down gracefully.`);
+
+    server.close(() => {
+      void mongoose.connection.close().finally(() => process.exit(0));
+    });
+  };
+
+  process.once("SIGINT", shutdown);
+  process.once("SIGTERM", shutdown);
+
+  return server;
+};
+
+void startServer().catch((error: unknown) => {
+  console.error("Failed to start the API server:", error);
+  process.exit(1);
 });
